@@ -16,6 +16,8 @@ guesses: dict[str, int] = {
     'length': 0
 }
 
+print(Game.start)
+
 i: int = 0
 while i < 100:
     # Create a new game
