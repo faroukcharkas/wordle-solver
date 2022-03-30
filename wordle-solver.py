@@ -19,7 +19,7 @@ guesses: dict[str, int] = {
 i: int = 0
 while i < 100:
     # Create a new game
-    new_player: RoboPlayer = RoboPlayer(first_word='crypt')
+    new_player: RoboPlayer = RoboPlayer(first_word='adieu')
     new_game: Game = Game(new_player)
 
     # Start new game

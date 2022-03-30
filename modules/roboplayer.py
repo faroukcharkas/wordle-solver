@@ -12,18 +12,22 @@ class RoboPlayer:
     white_letters: list[str]
     guess_memory: list[str]
     first_word: str
+    second_word: str
+    required_letters: list[str]
     
 
-    def __init__(self, first_word=None) -> None:
+    def __init__(self, first_word=None, second_word=None) -> None:
         self.available_words = copy.deepcopy(WORDLE_DICTIONARY)
         self.green_letters = ['']*5
         self.yellow_letters = [[],[],[],[],[]]
         self.white_letters = []
         self.guess_memory = []
+        self.required_letters = []
         if first_word == None:
             self.first_word = random.choice(WORDLE_LIST)
         else:
             self.first_word = first_word
+        self.second_word = second_word
         return None
 
     def _passes(self, word: str):
@@ -33,17 +37,21 @@ class RoboPlayer:
                     return False
             if word[i] in self.yellow_letters[i]:
                 return False
-            
         for letter in self.white_letters:
             if letter in word:
                 return False
         if word in self.guess_memory:
             return False
+        for letter in self.required_letters:
+            if letter not in word:
+                return False
         return True
 
 
     def _greenify(self, slot: int, letter: str):
         """Goes through slot and erases all keys that are not letter."""
+        if letter not in self.required_letters:
+            self.required_letters.append(letter)
         self.green_letters[slot] = letter
         poplist: list[str] = []
         for letter_key in self.available_words[slot]:
@@ -65,7 +73,9 @@ class RoboPlayer:
     
     def _yellowify(self, slot: int, letter: str):
         """Adds preference to letter and then deletes letter from the slot."""
-        if letter not in self.yellow_letters:
+        if letter not in self.required_letters:
+            self.required_letters.append(letter)
+        if letter not in self.yellow_letters[slot]:
             self.yellow_letters[slot].append(letter)
         if letter in list(self.available_words[slot].keys()):
             self.available_words[slot].pop(letter)
@@ -91,6 +101,8 @@ class RoboPlayer:
 
         if guess_number == 0:
             guess = self.first_word
+        elif guess_number == 1 and self.second_word is not None:
+            guess = self.second_word
         else:
             while len(guess) != 5 or not self._passes(guess):
                 # Pick a random slot
