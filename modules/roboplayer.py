@@ -2,6 +2,7 @@ import copy
 from matplotlib.style import available
 from modules.wordle_data import GREEN_BOX, WHITE_BOX, WORDLE_DICTIONARY, YELLOW_BOX, WORDLE_LIST
 import random
+from modules.logger import Logger
 
 class RoboPlayer:
 
@@ -124,7 +125,7 @@ class RoboPlayer:
                 # Guess!
                 guess = random_word
         
-        print(f'{self.LOG_TAG}          > {guess}')
+        Logger.log(message=f'  >{guess}', author='~player')
         self.guess_memory.append(guess)
         return guess
         

@@ -7,11 +7,11 @@ from modules.wordle_data import YELLOW_BOX
 from modules.wordle_data import RED_BOX
 from modules.wordle_data import BLACK_BOX
 from modules.wordle_data import WORDLE_LIST
+from modules.logger import Logger
 import random
 
 class Game:
 
-    LOG_TAG: str = '[ \U0001F579  G A M E \U0001F579  ]'
     guesses: int
     correct_word: str
     game_won: bool
@@ -22,8 +22,7 @@ class Game:
 
 
     def __init__(self, player):
-        print('\n'*3)
-        print(WHITE_BOX + BLACK_BOX + WHITE_BOX + '    P Y T H O N    W O R D L E    ' + BLACK_BOX + WHITE_BOX + BLACK_BOX)
+        Logger.log('W O R D L E  S O L V E R', nl_before=3)
         self.player = player
         self.guesses = 0
         self.correct_word = ''
@@ -58,19 +57,17 @@ class Game:
 
         # Select a word
         self.correct_word = random.choice(WORDLE_LIST)
-        print(f'{self.LOG_TAG}      Word has been selected. You have {6 - self.guesses} guesses to find the word.')
-        print('\n')
+        Logger.log(f'Word has been selected. You have {6 - self.guesses} guesses to find the word.')
 
         # Begin loop
         while self.guesses < 6 and self.game_won != True:
             guess: str = ''
-            print(f'{self.LOG_TAG}         What is your five letter guess?')
+            Logger.log(f'What is your five letter guess?', nl_before=1)
             guess = self.player.guess(self.guesses)
             self.guesses += 1
 
             feedback = self.process_guess(guess)
-            print(self.LOG_TAG + '         ' + feedback['feedback'])
-            print('\n')
+            Logger.log(message=feedback['feedback'], nl_after=1)
 
             if feedback['win?'] == True:
                 self.win()
@@ -82,13 +79,9 @@ class Game:
     
     def lose(self):
         self.game_won = False
-        print('\n')
-        print(f'{self.LOG_TAG}         {RED_BOX*3} You have lost the game. The word was {self.correct_word}. {RED_BOX*3}')
+        Logger.log_loss(message=f'You have lost the game. The word was {self.correct_word}.', nl_after=1)
 
     
     def win(self):
         self.game_won = True
-        print('\n')
-        print(f'{self.LOG_TAG}         {GREEN_BOX*3} You have won the game in {self.guesses} tries. The word was {self.correct_word}. {GREEN_BOX*3}')
-
-
+        Logger.log_win(message=f'You have won the game in {self.guesses} tries. The word was {self.correct_word}.', nl_after=1)
