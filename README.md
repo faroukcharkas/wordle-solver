@@ -18,7 +18,7 @@ wordle_game: Game = Game(RoboPlayer(first_word='irate', second_word='nymph'))
 wordle_game.start()
 ```
 The console outputs this:
-[Game Picture][https://github.com/faroukcharkas/wordle-solver/blob/master/assets/game_picture.png?raw=true]
+![Game Picture](https://github.com/faroukcharkas/wordle-solver/blob/master/assets/game_picture.png?raw=true)
 
 
 
@@ -31,7 +31,7 @@ wordle_lab: Lab = Lab(iterations=25, first_word='adieu', second_word='lucky')
 wordle_lab.run()
 ```
 The console outputs this:
-[Lab Picture][https://github.com/faroukcharkas/wordle-solver/blob/master/assets/lab_picture.png?raw=true]
+![Lab Picture](https://github.com/faroukcharkas/wordle-solver/blob/master/assets/lab_picture.png?raw=true)
 
 
 
